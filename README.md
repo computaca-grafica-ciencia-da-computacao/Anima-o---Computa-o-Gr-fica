@@ -4,14 +4,14 @@ Trabalho Prático de Computação Gráfica — Ciência da Computação, UNIPAC,
 Cena 3D animada em Python (pygame + PyOpenGL + numpy), baseada no framework do livro
 *Developing Graphics Frameworks with Python and OpenGL* (Stemkoski e Pascale, 2022).
 
-## Integrantes e temas sorteados
+## Integrantes e temas sorteados na sala
 
 > **PREENCHER antes da entrega.**
 
 | Integrante | Matrícula | Tema sorteado |
 |---|---|---|
-| [Nome do integrante 1] | [matrícula] | 14. Trator estilizado (ou 30 — conferir o sorteio) |
-| [Nome do integrante 2] | [matrícula] | 30. Caracol robótico (ou 14 — conferir o sorteio) |
+| [Gabriel Augusto Bedeschi Domingos] | [241-007248] | 14. Trator estilizado (ou 30 — conferir o sorteio) |
+| [João Emanuel] | [matrícula] | 30. Caracol robótico (ou 14 — conferir o sorteio) |
 
 ## Descrição da cena e da interação
 
