@@ -51,6 +51,18 @@ def perspectiva(fov_graus, aspecto, perto, longe):
     return m
 
 
+def ortografica(esq, dir, baixo, topo, perto, longe):
+    """Projecao ortografica (usada pela camera da sombra: a luz direcional tem raios paralelos)."""
+    m = identidade()
+    m[0, 0] = 2 / (dir - esq)
+    m[1, 1] = 2 / (topo - baixo)
+    m[2, 2] = -2 / (longe - perto)
+    m[0, 3] = -(dir + esq) / (dir - esq)
+    m[1, 3] = -(topo + baixo) / (topo - baixo)
+    m[2, 3] = -(longe + perto) / (longe - perto)
+    return m
+
+
 def olhar_para(olho, alvo, cima=(0, 1, 0)):
     olho = np.array(olho, dtype=np.float32)
     f = np.array(alvo, dtype=np.float32) - olho

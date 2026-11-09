@@ -39,25 +39,40 @@ class Object3D:
 
 
 class Mesh(Object3D):
-    def __init__(self, geometria, cor, brilho=32.0, especular=0.3):
+    def __init__(self, geometria, cor, brilho=32.0, especular=0.3, textura=None,
+                 projeta_sombra=True, recebe_sombra=True):
         super().__init__("mesh")
         self.geometria = geometria
-        self.cor = cor
+        self.cor = cor                  # com textura, a cor funciona como tinta (1, 1, 1 = sem tinta)
         self.brilho = brilho
         self.especular = especular
+        self.textura = textura
+        self.projeta_sombra = projeta_sombra
+        self.recebe_sombra = recebe_sombra
 
     def desenhar(self, loc):
         glUniformMatrix4fv(loc["uModel"], 1, GL_TRUE, self.matriz_mundo())
         glUniform3f(loc["uColor"], *self.cor)
         glUniform1f(loc["uShininess"], self.brilho)
         glUniform1f(loc["uSpecular"], self.especular)
+        glUniform1i(loc["uRecebeSombra"], 1 if self.recebe_sombra else 0)
+        glUniform1i(loc["uUsaTextura"], 1 if self.textura else 0)
+        if self.textura:
+            glActiveTexture(GL_TEXTURE0)
+            glBindTexture(GL_TEXTURE_2D, self.textura.id)
+        self.geometria.desenhar()
+
+    def desenhar_sombra(self, loc):
+        """Passe de sombra: so a geometria e a matriz de modelo importam."""
+        glUniformMatrix4fv(loc["uModel"], 1, GL_TRUE, self.matriz_mundo())
         self.geometria.desenhar()
 
 
 def adicionar_malha(pai, geometria, cor, pos=(0, 0, 0), rot=(0, 0, 0),
-                    escala=(1, 1, 1), brilho=32.0, especular=0.3):
+                    escala=(1, 1, 1), brilho=32.0, especular=0.3, textura=None,
+                    projeta_sombra=True, recebe_sombra=True):
     """Cria uma Mesh, posiciona e pendura no 'pai'."""
-    m = Mesh(geometria, cor, brilho, especular)
+    m = Mesh(geometria, cor, brilho, especular, textura, projeta_sombra, recebe_sombra)
     m.position[:] = pos
     m.rotation[:] = rot
     m.scale[:] = escala

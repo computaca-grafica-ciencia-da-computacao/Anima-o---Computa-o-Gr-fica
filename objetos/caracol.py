@@ -2,7 +2,7 @@
 para caminhar rumo a +Z no mundo (atravessando a pista do trator)."""
 import math
 from core.object3d import Object3D, adicionar_malha
-from core.util import aproximar
+from core.util import aproximar, limitar
 from geometry.shapes import caixa, cilindro, esfera
 
 COR_CORPO = (0.55, 0.64, 0.60)
@@ -16,8 +16,10 @@ class Caracol(Object3D):
     ESCALA = 1.8
     VEL = 1.3
     Z_INICIO = -9.5
-    Z_CONFUSAO = -0.8    # ao chegar aqui (de frente para o trator), ele hesita
-    T_CONFUSAO = 2.4     # segundos de "confusao"
+    Z_CONFUSAO = -0.8    # a partir daqui (de frente para o trator) ele pode hesitar
+    Z_FIM_REACAO = 2.0   # depois daqui ja esta atravessando: nao hesita mais
+    DIST_PERCEBE = 6.0   # distancia (em x) em que o caracol percebe o trator
+    T_CONFUSAO = 2.4     # tempo minimo de "confusao", em segundos
 
     def __init__(self):
         super().__init__("caracol")
@@ -67,14 +69,21 @@ class Caracol(Object3D):
     def z(self):
         return float(self.position[2])
 
-    def atualizar(self, dt):
+    def atualizar(self, dt, trator_x=None, trator_vel=0.0):
+        """trator_x / trator_vel: posicao e velocidade do trator (o caracol REAGE a ele).
+        O caracol hesita ao perceber o trator por perto e so volta a andar quando o trator
+        parou; o trator, por sua vez, so parte quando o caracol libera a pista (ver Cena)."""
         # --- maquina de estados ---
+        x_caracol = float(self.position[0])
         if self.estado == "andando":
-            if self.z >= self.Z_CONFUSAO and not self.ja_olhou:
+            perto = trator_x is not None and abs(trator_x - x_caracol) < self.DIST_PERCEBE
+            if (not self.ja_olhou and perto
+                    and self.Z_CONFUSAO <= self.z < self.Z_FIM_REACAO):
                 self.estado, self.timer, self.ja_olhou = "confuso", 0.0, True
         else:
             self.timer += dt
-            if self.timer >= self.T_CONFUSAO:
+            trator_parou = (trator_x is None or trator_x >= x_caracol or trator_vel < 0.05)
+            if self.timer >= self.T_CONFUSAO and trator_parou:
                 self.estado = "andando"
         confuso = self.estado == "confuso"
 
@@ -96,5 +105,8 @@ class Caracol(Object3D):
             piv.rotation[0] = lado * (0.25 + 0.08 * math.sin(fase * 0.7))
 
         # --- cabeca: vira para o trator (lado -X do mundo = +Z local) e inclina ---
-        self.cabeca.rotation[1] = aproximar(float(self.cabeca.rotation[1]), -0.95 if confuso else 0.0, 6, dt)
+        alvo_cabeca = -0.95
+        if trator_x is not None:   # angulo local ate o trator (que fica na pista, z = 0)
+            alvo_cabeca = -limitar(math.atan2(x_caracol - trator_x, -self.z), 0.3, 1.2)
+        self.cabeca.rotation[1] = aproximar(float(self.cabeca.rotation[1]), alvo_cabeca if confuso else 0.0, 6, dt)
         self.cabeca.rotation[2] = aproximar(float(self.cabeca.rotation[2]), 0.3 if confuso else 0.0, 5, dt)

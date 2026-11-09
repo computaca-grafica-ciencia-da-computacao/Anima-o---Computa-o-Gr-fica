@@ -1,7 +1,7 @@
 """Trator x Caracol robotico - Computacao Grafica (pygame + PyOpenGL).
 
-Controles: arrastar com o mouse = orbitar | roda = zoom | R = reiniciar |
-           P = pausar | ESC = sair
+Controles: setas / A D = orbitar | setas cima/baixo = inclinar | W S (ou + -) = zoom |
+           mouse: arrastar = orbitar, roda = zoom | R = reiniciar | P = pausar | ESC = sair
 """
 import pygame
 from core.camera import CameraOrbital
@@ -50,6 +50,7 @@ def main():
                     pausado = not pausado
             camera.evento(e)
 
+        camera.teclado(pygame.key.get_pressed(), dt)   # a camera funciona mesmo com a cena pausada
         if not pausado:
             cena.atualizar(dt)
 
@@ -58,7 +59,8 @@ def main():
             tamanho = (w, h)
             renderer.redimensionar(w, h)
         renderer.renderizar(cena, camera, w / max(h, 1))
-        pygame.display.set_caption(f"Trator x Caracol  |  {cena.fase}")
+        pygame.display.set_caption(
+            f"Trator x Caracol  |  {cena.fase.value}" + ("  |  PAUSADO" if pausado else ""))
         pygame.display.flip()
 
     pygame.quit()
