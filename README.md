@@ -4,14 +4,12 @@ Trabalho Prático de Computação Gráfica — Ciência da Computação, UNIPAC,
 Cena 3D animada em Python (pygame + PyOpenGL + numpy), baseada no framework do livro
 *Developing Graphics Frameworks with Python and OpenGL* (Stemkoski e Pascale, 2022).
 
-## Integrantes e temas sorteados na sala
+## Integrantes e temas escolhidos em sala
 
-> **PREENCHER antes da entrega.**
-
-| Integrante | Matrícula | Tema sorteado |
+| Integrante | Matrícula | Tema escolhido |
 |---|---|---|
-| [Gabriel Augusto Bedeschi Domingos] | [241-007248] | 14. Trator estilizado (ou 30 — conferir o sorteio) |
-| [João Emanuel] | [matrícula] | 30. Caracol robótico (ou 14 — conferir o sorteio) |
+| [Gabriel Augusto Bedeschi Domingos] | [241-007248] | 14. Trator estilizado |
+| [João Emanuel] | 241-007675 | 30. Caracol robótico |
 
 ## Descrição da cena e da interação
 
@@ -125,13 +123,6 @@ Adaptações em relação ao livro (nomes em português e estrutura simplificada
   textura com `CLAMP_TO_BORDER` branca, condição "superfície voltada para a luz" (cosseno > 0,01),
   `strength` e `bias`.
 
-## Contribuições individuais
-
-> **PREENCHER antes da entrega.**
-
-- [Integrante 1]: [descreva: modelagem, animação, shaders…]
-- [Integrante 2]: [descreva: modelagem, animação, shaders…]
-
 ## Fontes consultadas
 
 - STEMKOSKI, Lee; PASCALE, Michael. *Developing graphics frameworks with Python and OpenGL*.
@@ -143,8 +134,6 @@ Adaptações em relação ao livro (nomes em português e estrutura simplificada
 por `tools/gerar_texturas.py` (ruído filtrado com numpy, ladrilháveis). Não há imagens de terceiros.
 
 ## Declaração de uso de inteligência artificial
-
-> **CONFERIR e completar antes da entrega.**
 
 - **Ferramenta:** Claude (Anthropic).
 - **Finalidade e trechos desenvolvidos ou revisados com apoio da ferramenta** (revisão do projeto contra
