@@ -8,7 +8,7 @@ Cena 3D animada em Python (pygame + PyOpenGL + numpy), baseada no framework do l
 
 | Integrante | Matrícula | Tema escolhido |
 |---|---|---|
-| [Gabriel Augusto Bedeschi Domingos] | [241-007248] | 14. Trator estilizado |
+| [Gabriel Augusto Bedeschi Domingos] | 241-007248 | 14. Trator estilizado |
 | [João Emanuel] | 241-007675 | 30. Caracol robótico |
 
 ## Descrição da cena e da interação
